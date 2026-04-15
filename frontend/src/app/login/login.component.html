@@ -1,0 +1,52 @@
+<!-- -----------------------------------------------------------------
+ARCHIVO: login.component.html
+FUNCIÓN: Pantalla visual de inicio de sesión
+----------------------------------------------------------------- -->
+
+<!-- row justify-content-center: centra horizontalmente el contenido -->
+<div class="row justify-content-center">
+  
+  <!-- col-md-4: ocupa 4 columnas de 12 en pantallas medianas (ancho ~33%) -->
+  <div class="col-md-4">
+    
+    <!-- card: tarjeta con borde y sombra -->
+    <div class="card mt-5">
+      
+      <!-- card-header: cabecera de la tarjeta -->
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Iniciar Sesión</h4>
+      </div>
+      
+      <!-- card-body: cuerpo de la tarjeta -->
+      <div class="card-body">
+        
+        <!-- (ngSubmit): evento que se ejecuta al enviar el formulario -->
+        <form (ngSubmit)="onSubmit()">
+          
+          <!-- mb-3: margen inferior -->
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <!-- [(ngModel)]: enlace bidireccional (input → variable, variable → input) -->
+            <!-- name="email": necesario para que ngModel funcione -->
+            <!-- required: campo obligatorio -->
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" required>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="password" name="password" required>
+          </div>
+          
+          <!-- w-100: ancho completo -->
+          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+        
+        <hr>
+        
+        <!-- routerLink: navega a la página de registro -->
+        <a routerLink="/register" class="btn btn-link w-100">¿No tienes cuenta? Regístrate</a>
+        
+      </div>
+    </div>
+  </div>
+</div>

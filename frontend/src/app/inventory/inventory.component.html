@@ -1,0 +1,98 @@
+<!-- Pantalla de gestión de inventario (stock) -->
+<div class="row">
+  
+  <!-- FORMULARIO PARA CREAR INVENTARIO (producto nuevo sin stock) -->
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0">📦 Crear Inventario</h5>
+      </div>
+      <div class="card-body">
+        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        
+        <form (ngSubmit)="createInventory()">
+          <div class="mb-2">
+            <label class="form-label">Producto</label>
+            <select class="form-control" [(ngModel)]="newInventory.product_id" name="product_id">
+              <option value="">Seleccione...</option>
+              <option *ngFor="let p of products" [value]="p.id">{{ p.name }} ({{ p.sku }})</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Cantidad inicial</label>
+            <input type="number" class="form-control" [(ngModel)]="newInventory.quantity" name="quantity">
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Stock mínimo (alerta)</label>
+            <input type="number" class="form-control" [(ngModel)]="newInventory.min_stock" name="min_stock">
+          </div>
+          <button type="submit" class="btn btn-info w-100">Crear Inventario</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- TABLA DE INVENTARIO ACTUAL -->
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">📊 Stock Actual</h5>
+      </div>
+      <div class="card-body">
+        
+        <!-- Modal de actualización de stock (aparece al seleccionar) -->
+        <div *ngIf="selectedProduct" class="alert alert-warning">
+          <h6>Actualizando: {{ selectedProduct.product_id.name }}</h6>
+          <div class="row">
+            <div class="col-5">
+              <select class="form-control" [(ngModel)]="stockOperation">
+                <option value="add">➕ Añadir</option>
+                <option value="subtract">➖ Restar</option>
+                <option value="set">📌 Establecer</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <input type="number" class="form-control" [(ngModel)]="stockQuantity" placeholder="Cantidad">
+            </div>
+            <div class="col-3">
+              <button class="btn btn-primary btn-sm" (click)="updateStock()">Aplicar</button>
+              <button class="btn btn-secondary btn-sm" (click)="cancelUpdate()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>SKU</th>
+              <th>Stock Actual</th>
+              <th>Stock Mínimo</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inv of inventoryList">
+              <td>{{ inv.product_id.name }}</td>
+              <td>{{ inv.product_id.sku }}</td>
+              <td>{{ inv.quantity }}</td>
+              <td>{{ inv.min_stock }}</td>
+              <td>
+                <span *ngIf="inv.quantity <= inv.min_stock" class="badge bg-danger">⚠️ Stock Bajo</span>
+                <span *ngIf="inv.quantity > inv.min_stock" class="badge bg-success">✅ Normal</span>
+              </td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="selectProductForUpdate(inv)">✏️ Actualizar Stock</button>
+              </td>
+            </tr>
+            <tr *ngIf="inventoryList.length === 0">
+              <td colspan="6" class="text-center">No hay inventario registrado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

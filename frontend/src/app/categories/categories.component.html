@@ -1,0 +1,65 @@
+<!-- Pantalla de gestión de categorías -->
+<div class="row">
+  
+  <!-- FORMULARIO PARA CREAR CATEGORÍA -->
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">➕ Nueva Categoría</h5>
+      </div>
+      <div class="card-body">
+        
+        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        
+        <form (ngSubmit)="createCategory()">
+          <div class="mb-3">
+            <label class="form-label">Nombre *</label>
+            <input type="text" class="form-control" [(ngModel)]="newCategory.name" name="name" required>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" [(ngModel)]="newCategory.description" name="description"></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-success w-100">Crear Categoría</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- TABLA DE CATEGORÍAS EXISTENTES -->
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">📂 Lista de Categorías</h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Fecha Creación</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cat of categories">
+              <td>{{ cat.name }}</td>
+              <td>{{ cat.description || '-' }}</td>
+              <td>{{ cat.created_at | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteCategory(cat.id)">🗑 Eliminar</button>
+              </td>
+            </tr>
+            <tr *ngIf="categories.length === 0">
+              <td colspan="4" class="text-center">No hay categorías registradas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
