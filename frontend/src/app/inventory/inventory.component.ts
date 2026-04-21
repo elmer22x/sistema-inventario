@@ -83,6 +83,7 @@ export class InventoryComponent implements OnInit {
         this.message = 'Inventario creado correctamente';
         this.newInventory = { product_id: '', quantity: 0, min_stock: 5 };
         this.loadInventory();
+        this.cerrarModal();
         setTimeout(() => { this.message = ''; }, 3000);
       },
       error: (err) => {
@@ -127,4 +128,34 @@ export class InventoryComponent implements OnInit {
     this.selectedProduct = null;
     this.stockQuantity = 0;
   }
+
+  abrirModal() {
+  const modal = document.getElementById('modalInventario');
+  if (modal) {
+    modal.style.display = 'block';
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
+    
+    let backdrop = document.querySelector('.modal-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop fade show';
+      document.body.appendChild(backdrop);
+    }
+  }
+}
+
+cerrarModal() {
+  const modal = document.getElementById('modalInventario');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove();
+  }
+}
+
+
 }

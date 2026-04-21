@@ -1,40 +1,14 @@
 <!-- Pantalla de gestión de inventario (stock) -->
 <div class="row">
   
-  <!-- FORMULARIO PARA CREAR INVENTARIO (producto nuevo sin stock) -->
-  <div class="col-md-4">
-    <div class="card mb-3">
-      <div class="card-header bg-info text-white">
-        <h5 class="mb-0">📦 Crear Inventario</h5>
-      </div>
-      <div class="card-body">
-        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
-        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-        
-        <form (ngSubmit)="createInventory()">
-          <div class="mb-2">
-            <label class="form-label">Producto</label>
-            <select class="form-control" [(ngModel)]="newInventory.product_id" name="product_id">
-              <option value="">Seleccione...</option>
-              <option *ngFor="let p of products" [value]="p.id">{{ p.name }} ({{ p.sku }})</option>
-            </select>
-          </div>
-          <div class="mb-2">
-            <label class="form-label">Cantidad inicial</label>
-            <input type="number" class="form-control" [(ngModel)]="newInventory.quantity" name="quantity">
-          </div>
-          <div class="mb-2">
-            <label class="form-label">Stock mínimo (alerta)</label>
-            <input type="number" class="form-control" [(ngModel)]="newInventory.min_stock" name="min_stock">
-          </div>
-          <button type="submit" class="btn btn-info w-100">Crear Inventario</button>
-        </form>
-      </div>
-    </div>
-  </div>
   
+  
+  <div class="mb-3 text-end">
+  <button class="btn btn-primary" (click)="abrirModal()">➕ Crear Inventario</button>
+</div>
+
   <!-- TABLA DE INVENTARIO ACTUAL -->
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card">
       <div class="card-header bg-secondary text-white">
         <h5 class="mb-0">📊 Stock Actual</h5>
@@ -95,4 +69,42 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Modal para crear inventario -->
+<div class="modal fade" id="modalInventario" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">📦 Nuevo Inventario</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createInventory()">
+          <div class="mb-2">
+            <label class="form-label">Producto</label>
+            <select class="form-control" [(ngModel)]="newInventory.product_id" name="product_id" required>
+              <option value="">Seleccione...</option>
+              <option *ngFor="let p of products" [value]="p.id">{{ p.name }} ({{ p.sku }})</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Cantidad inicial</label>
+            <input type="number" class="form-control" [(ngModel)]="newInventory.quantity" name="quantity">
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Stock mínimo (alerta)</label>
+            <input type="number" class="form-control" [(ngModel)]="newInventory.min_stock" name="min_stock">
+          </div>
+          <button type="submit" class="btn btn-info w-100">Crear Inventario</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </div>

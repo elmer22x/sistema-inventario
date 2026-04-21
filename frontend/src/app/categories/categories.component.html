@@ -1,36 +1,13 @@
 <!-- Pantalla de gestión de categorías -->
 <div class="row">
   
-  <!-- FORMULARIO PARA CREAR CATEGORÍA -->
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-header bg-success text-white">
-        <h5 class="mb-0">➕ Nueva Categoría</h5>
-      </div>
-      <div class="card-body">
-        
-        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
-        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-        
-        <form (ngSubmit)="createCategory()">
-          <div class="mb-3">
-            <label class="form-label">Nombre *</label>
-            <input type="text" class="form-control" [(ngModel)]="newCategory.name" name="name" required>
-          </div>
-          
-          <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea class="form-control" [(ngModel)]="newCategory.description" name="description"></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-success w-100">Crear Categoría</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  
+  <div class="mb-3 text-end">
+  <button class="btn btn-primary" (click)="abrirModal()">➕ Crear Categoría</button>
+</div>
   
   <!-- TABLA DE CATEGORÍAS EXISTENTES -->
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card">
       <div class="card-header bg-secondary text-white">
         <h5 class="mb-0">📂 Lista de Categorías</h5>
@@ -62,4 +39,36 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal para crear categoría -->
+<div class="modal fade" id="modalCategoria" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">📂 Nueva Categoría</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createCategory()">
+          <div class="mb-3">
+            <label class="form-label">Nombre *</label>
+            <input type="text" class="form-control" [(ngModel)]="newCategory.name" name="name" required>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" [(ngModel)]="newCategory.description" name="description"></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-success w-100">Crear Categoría</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </div>

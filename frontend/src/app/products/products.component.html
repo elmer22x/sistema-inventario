@@ -1,85 +1,90 @@
 <!-- -----------------------------------------------------------------
 ARCHIVO: products.component.html
-FUNCIÓN: Pantalla de gestión de productos (lista + formulario crear)
+FUNCIÓN: Pantalla de gestión de productos con Tailwind CSS
 ----------------------------------------------------------------- -->
 
-<div class="row">
-  <!-- COLUMNA DEL FORMULARIO (crear producto) -->
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">➕ Nuevo Producto</h5>
-      </div>
-      <div class="card-body">
-        
-        <!-- Mensajes de éxito/error -->
-        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
-        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-        
-        <form (ngSubmit)="createProduct()">
-          <div class="mb-2">
-            <label class="form-label">Nombre *</label>
-            <input type="text" class="form-control" [(ngModel)]="newProduct.name" name="name" required>
-          </div>
-          
-          <div class="mb-2">
-            <label class="form-label">Descripción</label>
-            <textarea class="form-control" [(ngModel)]="newProduct.description" name="description"></textarea>
-          </div>
-          
-          <div class="mb-2">
-            <label class="form-label">Precio *</label>
-            <input type="number" step="0.01" class="form-control" [(ngModel)]="newProduct.price" name="price" required>
-          </div>
-          
-          <div class="mb-2">
-            <label class="form-label">SKU * (código único)</label>
-            <input type="text" class="form-control" [(ngModel)]="newProduct.sku" name="sku" required>
-          </div>
-          
-          <div class="mb-2">
-            <label class="form-label">Categoría</label>
-            <select class="form-control" [(ngModel)]="newProduct.category_id" name="category_id">
-              <option value="">Sin categoría</option>
-              <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-            </select>
-          </div>
-          
-          <button type="submit" class="btn btn-primary w-100">Crear Producto</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<div class="p-6">
   
-  <!-- COLUMNA DE LA TABLA (listar productos) -->
-  <div class="col-md-8">
-    <div class="card">
-      <div class="card-header bg-secondary text-white">
-        <h5 class="mb-0">📋 Lista de Productos</h5>
-      </div>
-      <div class="card-body">
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>Nombre</th><th>SKU</th><th>Precio</th><th>Categoría</th><th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let product of products">
-              <td>{{ product.name }}</td>
-              <td>{{ product.sku }}</td>
-              <td>${{ product.price }}</td>
-              <td>{{ product.category_id?.name || 'Sin categoría' }}</td>
-              <td>
-                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">🗑 Eliminar</button>
-              </td>
-            </tr>
-            <tr *ngIf="products.length === 0">
-              <td colspan="5" class="text-center">No hay productos registrados</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Encabezado y botón -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">📱 Productos</h2>
+    <button (click)="abrirModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2">
+      <span>➕</span> Nuevo Producto
+    </button>
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let product of products" class="hover:bg-gray-50 transition">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ product.name }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.sku }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${{ product.price }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.category_id?.name || 'Sin categoría' }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <button (click)="deleteProduct(product.id)" class="text-red-600 hover:text-red-800 transition">🗑 Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="products.length === 0">
+          <td colspan="5" class="px-6 py-4 text-center text-gray-500">No hay productos registrados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL para crear producto -->
+<div *ngIf="modalAbierto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 rounded-t-xl flex justify-between items-center">
+      <h3 class="text-white text-xl font-bold">📦 Nuevo Producto</h3>
+      <button (click)="cerrarModal()" class="text-white hover:text-gray-200 text-2xl">&times;</button>
+    </div>
+    <div class="p-6">
+      <div *ngIf="message" class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">{{ message }}</div>
+      <div *ngIf="errorMessage" class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">{{ errorMessage }}</div>
+      
+      <form (ngSubmit)="createProduct()">
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">Nombre *</label>
+          <input type="text" [(ngModel)]="newProduct.name" name="name" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">Descripción</label>
+          <textarea [(ngModel)]="newProduct.description" name="description" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">Precio *</label>
+          <input type="number" step="0.01" [(ngModel)]="newProduct.price" name="price" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">SKU *</label>
+          <input type="text" [(ngModel)]="newProduct.sku" name="sku" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Categoría</label>
+          <select [(ngModel)]="newProduct.category_id" name="category_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">Sin categoría</option>
+            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-2 rounded-lg transition duration-200">Crear Producto</button>
+      </form>
     </div>
   </div>
 </div>

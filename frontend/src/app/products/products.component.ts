@@ -17,6 +17,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+  modalAbierto: boolean = false;
   // Lista de productos que se muestra en la tabla
   products: any[] = [];
   
@@ -84,6 +85,8 @@ export class ProductsComponent implements OnInit {
         this.newProduct = { name: '', description: '', price: 0, sku: '', category_id: '' };
         // Recargar la lista
         this.loadProducts();
+
+        this.cerrarModal();//agregado 
         
         // Limpiar mensaje después de 3 segundos
         setTimeout(() => { this.message = ''; }, 3000);
@@ -111,4 +114,11 @@ export class ProductsComponent implements OnInit {
       });
     }
   }
+
+  cerrarModal() {
+  this.modalAbierto = false;
+}
+abrirModal() {
+  this.modalAbierto = true;
+}
 }

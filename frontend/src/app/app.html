@@ -1,61 +1,22 @@
-<!-- -----------------------------------------------------------------
-ARCHIVO: app.html
-FUNCIÓN: Plantilla principal (el "esqueleto" visual de toda la aplicación)
-IMPORTANCIA: Todo lo que ves en cualquier página se muestra dentro de este archivo
------------------------------------------------------------------ -->
-
-<!-- NAVBAR: Barra de navegación que aparece en todas las páginas -->
-<!-- navbar: clase de Bootstrap para la barra de navegación -->
-<!-- navbar-expand-lg: en pantallas grandes, el menú se ve horizontal -->
-<!-- navbar-dark: texto blanco o claro -->
-<!-- bg-dark: fondo negro/oscuro -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  
-  <!-- container: centra el contenido con márgenes automáticos -->
-  <div class="container">
-    
-    <!-- navbar-brand: logo o título de la aplicación -->
-    <a class="navbar-brand" href="#">📦 Sistema de Inventario</a>
-    
-    <!-- botón que aparece en móviles (hamburguesa) -->
-    <!-- data-bs-toggle="collapse": hace que el menú se despliegue -->
-    <!-- data-bs-target="#navbarNav": indica qué elemento colapsar -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span> <!-- ícono de hamburguesa -->
-    </button>
-    
-    <!-- collapse navbar-collapse: menú que se colapsa en móviles -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-      
-      <!-- ms-auto: margen izquierdo automático (empuja el menú a la derecha) -->
-      <ul class="navbar-nav ms-auto">
-        
-        <!-- nav-item: cada elemento del menú -->
-        <li class="nav-item">
-          <!-- routerLink: navega a la ruta /products SIN recargar la página -->
-          <a class="nav-link" routerLink="/products">📱 Productos</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/categories">📂 Categorías</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/inventory">📊 Inventario</a>
-        </li>
-        
-      </ul>
+<div class="d-flex min-vh-100">
+  <div class="bg-dark text-white" style="width: 250px;">
+    <div class="p-3">
+      <h4 class="text-white">📦 Inventario</h4>
     </div>
+    <hr class="text-white-50">
+    <ul class="nav nav-pills flex-column px-3">
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/products">📱 Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/categories">📂 Categorías</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/inventory">📊 Inventario</a>
+      </li>
+    </ul>
   </div>
-</nav>
-
-<!-- CONTENEDOR PRINCIPAL -->
-<!-- container: centra el contenido -->
-<!-- mt-4: margen superior de 4 unidades (separación de la barra) -->
-<div class="container mt-4">
-  
-  <!-- router-outlet: Angular INSERTA AQUÍ el componente de la ruta actual -->
-  <!-- Ejemplo: si la URL es /products, aquí se carga ProductsComponent -->
-  <router-outlet></router-outlet>
-  
+  <div class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
 </div>

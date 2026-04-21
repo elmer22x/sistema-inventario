@@ -1,11 +1,10 @@
-/* -----------------------------------------------------------------
-ARCHIVO: styles.css
-FUNCIÓN: Estilos GLOBALES que afectan a TODA la aplicación
-IMPORTANCIA: Bootstrap se importa aquí para que funcione en todos los componentes
------------------------------------------------------------------ */
-
-/* @import: trae código CSS de otro archivo */
-/* bootstrap/dist/css/bootstrap.min.css: archivo de Bootstrap (versión comprimida) */
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-/* Opcional: puedes agregar estilos personalizados globales aquí */
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  min-height: 100vh;
+}

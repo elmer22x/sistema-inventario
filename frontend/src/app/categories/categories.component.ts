@@ -61,6 +61,7 @@ export class CategoriesComponent implements OnInit {
         this.message = 'Categoría creada correctamente';
         this.newCategory = { name: '', description: '' };
         this.loadCategories();
+        this.cerrarModal();
         setTimeout(() => { this.message = ''; }, 3000);
       },
       error: (err) => {
@@ -86,4 +87,33 @@ export class CategoriesComponent implements OnInit {
       });
     }
   }
+
+
+  abrirModal() {
+  const modal = document.getElementById('modalCategoria');
+  if (modal) {
+    modal.style.display = 'block';
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
+    
+    let backdrop = document.querySelector('.modal-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop fade show';
+      document.body.appendChild(backdrop);
+    }
+  }
+}
+
+cerrarModal() {
+  const modal = document.getElementById('modalCategoria');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove();
+  }
+}
 }
